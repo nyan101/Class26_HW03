@@ -14,9 +14,9 @@ struct nMAC {
 
     operator const char*() { ether_ntoa_r((const ether_addr*)MAC, MACstr); return MACstr;  }
 
-    nMAC operator = (const nMAC& rhs)       { memcpy(MAC, rhs.MAC, ETHER_ADDR_LEN);	return *this; }
-    nMAC operator = (const char* rhs)       { ether_aton_r(rhs, (ether_addr*)MAC);  return *this; }
-    nMAC operator = (const ether_addr& rhs) { memcpy(MAC, rhs.ether_addr_octet, ETHER_ADDR_LEN); return *this; }
+    void operator = (const nMAC& rhs)       { memcpy(MAC, rhs.MAC, ETHER_ADDR_LEN);	return; }
+    void operator = (const char* rhs)       { ether_aton_r(rhs, (ether_addr*)MAC);  return; }
+    void operator = (const ether_addr& rhs) { memcpy(MAC, rhs.ether_addr_octet, ETHER_ADDR_LEN); return; }
 
     bool isBroadcast() const { return memcmp(MAC, "\xff\xff\xff\xff\xff\xff", ETHER_ADDR_LEN)==0; }
 };
