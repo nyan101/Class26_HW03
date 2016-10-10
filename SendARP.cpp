@@ -156,8 +156,8 @@ void relayPackets(pcap_t *pcd, vector<myAddress> &targetList)
 
             if((((srcIP&subMask) != (myIP&subMask))||(srcIP==gIP)) && (dstIP == tIP))
             {
-                memcpy(etherHdr->ether_shost, getMyAddr().MAC.ether_addr_octet, ETHER_ADDR_LEN);
-                memcpy(etherHdr->ether_dhost, target.MAC.ether_addr_octet,      ETHER_ADDR_LEN);
+                memcpy(&etherHdr->ether_shost, &(getMyAddr().MAC.ether_addr_octet), ETHER_ADDR_LEN);
+                memcpy(&etherHdr->ether_dhost, &(target.MAC.ether_addr_octet),      ETHER_ADDR_LEN);
                 if(pcap_inject(pcd, recvPacket, recvHeader->caplen)==-1)
                 {
                     pcap_perror(pcd,0);
@@ -175,8 +175,8 @@ void relayPackets(pcap_t *pcd, vector<myAddress> &targetList)
 
             if((((dstIP&subMask) != (myIP&subMask))||(dstIP==gIP)) && (srcIP == tIP))
             {
-                memcpy(etherHdr->ether_shost, getMyAddr().MAC.ether_addr_octet,  ETHER_ADDR_LEN);
-                memcpy(etherHdr->ether_dhost, getGateway().MAC.ether_addr_octet, ETHER_ADDR_LEN);
+                memcpy(&etherHdr->ether_shost, &(getMyAddr().MAC.ether_addr_octet),  ETHER_ADDR_LEN);
+                memcpy(&etherHdr->ether_dhost, &(getGateway().MAC.ether_addr_octet), ETHER_ADDR_LEN);
                 if(pcap_inject(pcd, recvPacket, recvHeader->caplen)==-1)
                 {
                     pcap_perror(pcd,0);

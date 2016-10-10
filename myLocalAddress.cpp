@@ -4,7 +4,7 @@
 #include <arpa/inet.h>
 #include "myLocalAddress.h"
 
-myFullAddress getMyAddr()
+myFullAddress& getMyAddr()
 {
     static int flag = 0;
     static myFullAddress myAddr;
@@ -51,7 +51,7 @@ myFullAddress getMyAddr()
     return myAddr;
 }
 
-myAddress getGateway()
+myAddress& getGateway()
 {
     static int flag = 0;
     static myAddress gateway;

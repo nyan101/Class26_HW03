@@ -5,17 +5,17 @@
 #include <arpa/inet.h>
 
 struct myAddress{
-    struct in_addr IP;
-    struct ether_addr MAC;
+    in_addr IP;
+    ether_addr MAC;
 };
 
 struct myFullAddress{
-	struct in_addr IP;
-    struct ether_addr MAC;
-    struct in_addr subMask;
+	in_addr IP;
+    ether_addr MAC;
+    in_addr subMask;
 };
 
-struct myFullAddress getMyAddr();
-struct myAddress getGateway();
+myFullAddress& getMyAddr();
+myAddress& getGateway();
 
 #endif
