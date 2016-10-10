@@ -1,13 +1,13 @@
-#include "getLocalAddress.h"
 #include <pcap.h>
 #include <stdio.h>
 #include <netinet/ether.h>
 #include <arpa/inet.h>
+#include "myLocalAddress.h"
 
-struct myAddress getMyAddr()
+myFullAddress getMyAddr()
 {
     static int flag = 0;
-    static struct myAddress myAddr;
+    static myFullAddress myAddr;
 
     if(flag==0)
     {
@@ -51,17 +51,17 @@ struct myAddress getMyAddr()
     return myAddr;
 }
 
-struct in_addr getGateway()
+myAddress getGateway()
 {
     static int flag = 0;
-    static struct in_addr gatewayIP;
+    static myAddress gateway;
 
     if(flag==0)
     {
         FILE* fp;
         char *dev;
         char cmd[256] = {0x0}, errbuf[PCAP_ERRBUF_SIZE];
-        char IPbuf[20] = {0x0};
+        char MACbuf[20] = {0x0}, IPbuf[20] = {0x0};
 
         dev = pcap_lookupdev(errbuf);
         
@@ -72,10 +72,18 @@ struct in_addr getGateway()
         fgets(IPbuf, sizeof(IPbuf), fp);
         pclose(fp);
 
-        inet_aton(IPbuf, &gatewayIP);
+        inet_aton(IPbuf, &gateway.IP);
+
+        // get gateway MAC
+        sprintf(cmd, "arp | grep '%s' | grep 'gateway' | awk '{print $3}'", dev);
+        fp = popen(cmd, "r");
+        fgets(MACbuf, sizeof(MACbuf), fp);
+        pclose(fp);
+
+        ether_aton_r(MACbuf, &gateway.MAC);
 
         flag = 1;
     }
 
-    return gatewayIP;
+    return gateway;
 }

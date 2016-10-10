@@ -1,11 +1,14 @@
-SendARP: SendARP.o getLocalAddress.o getLocalAddress.h
-	gcc -o SendARP SendARP.o getLocalAddress.o -lpcap
+SendARP: SendARP.o myLocalAddress.o myARPtools.o myLocalAddress.h myARPtools.h
+	g++ -std=c++11 -o SendARP SendARP.o myLocalAddress.o myARPtools.o -lpcap
 
-SendARP.o: SendARP.c getLocalAddress.h
-	gcc -c SendARP.c
+SendARP.o: SendARP.cpp myLocalAddress.h myARPtools.h
+	g++ -std=c++11 -c SendARP.cpp
 
-getLocalAddress.o: getLocalAddress.c getLocalAddress.h
-	gcc -c getLocalAddress.c
+myLocalAddress.o: myLocalAddress.cpp myLocalAddress.h
+	g++ -std=c++11 -c myLocalAddress.cpp
+
+myARPtools.o: myARPtools.cpp myARPtools.h myLocalAddress.h
+	g++ -std=c++11 -c myARPtools.cpp	
 
 clean:
 	rm *.o SendARP
