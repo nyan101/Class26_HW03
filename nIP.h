@@ -15,10 +15,10 @@ struct nIP {
     operator uint32_t() const { return ntohl(IP); }
     explicit operator const char*() { inet_ntop(AF_INET, &IP, IPstr, INET_ADDRSTRLEN); return IPstr; }
 
-    nIP operator = (const nIP& rhs)		{ IP = rhs.IP;	    return *this; }
-    nIP operator = (const uint32_t rhs) { IP = htonl(rhs);	return *this; }
-    nIP operator = (const char* rhs)	{ inet_pton(AF_INET, rhs, &IP); return *this; }
-    nIP operator = (const in_addr& rhs)	{ IP = rhs.s_addr;  return *this; }
+    void operator = (const nIP& rhs)     { IP = rhs.IP;     return; }
+    void operator = (const uint32_t rhs) { IP = htonl(rhs); return; }
+    void operator = (const char* rhs)    { inet_pton(AF_INET, rhs, &IP); return; }
+    void operator = (const in_addr& rhs) { IP = rhs.s_addr; return; }
 
     bool operator == (const uint32_t rhs) const { return IP==htonl(rhs); }
     bool operator == (const in_addr& rhs) const { return IP==rhs.s_addr; }
