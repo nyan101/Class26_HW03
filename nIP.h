@@ -1,5 +1,5 @@
-#include <cstdint>
-#include <cstring>
+#include <stdint.h>
+#include <string.h>
 #include <arpa/inet.h>
 
 struct nIP {
